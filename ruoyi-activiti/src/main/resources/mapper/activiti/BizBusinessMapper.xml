@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.BizBusinessMapper">
+    
+    <resultMap type="BizBusiness" id="BizBusinessResult">
+        <result property="id"    column="id"    />
+        <result property="procDefId"    column="proc_def_id"    />
+        <result property="procDefKey"    column="proc_def_key"    />
+        <result property="procInstId"    column="proc_inst_id"    />
+        <result property="procName"    column="proc_name"    />
+        <result property="currentTask"    column="current_task"    />
+        <result property="result"    column="result"    />
+        <result property="status"    column="status"    />
+        <result property="tableId"    column="table_id"    />
+        <result property="title"    column="title"    />
+        <result property="userId"    column="user_id"    />
+        <result property="applyer"    column="applyer"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="restartTimes"    column="restart_times"    />
+        <result property="parentId"     column="parent_id" />
+        <result property="tableIndex"   column="table_index"/>
+    </resultMap>
+
+    <sql id="selectBizBusinessVo">
+        select id, proc_def_id, proc_def_key, proc_inst_id, proc_name, current_task, result, status, table_id, title, user_id, applyer, apply_time, del_flag, restart_times, parent_id, table_index from biz_business
+    </sql>
+
+    <select id="selectBizBusinessList" parameterType="BizBusiness" resultMap="BizBusinessResult">
+        <include refid="selectBizBusinessVo"/>
+        <where>  
+            <if test="procDefId != null  and procDefId != ''"> and proc_def_id = #{procDefId}</if>
+            <if test="procDefKey != null  and procDefKey != ''"> and proc_def_key = #{procDefKey}</if>
+            <if test="procInstId != null  and procInstId != ''"> and proc_inst_id = #{procInstId}</if>
+            <if test="procName != null  and procName != ''"> and proc_name like concat('%', #{procName}, '%')</if>
+            <if test="currentTask != null  and currentTask != ''"> and current_task = #{currentTask}</if>
+            <if test="result != null "> and result = #{result}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="tableId != null  and tableId != ''"> and table_id = #{tableId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="applyer != null  and applyer != ''"> and applyer = #{applyer}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="delFlag != null and !delFlag"> and del_flag = #{delFlag}</if>
+            <if test="restartTimes != null and restartTimes > 0"> and restart_times = #{restartTimes}</if>
+            <if test="parentId != null and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="tableIndex != null and table_index > 0"> and table_index = #{tableIndex}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizBusinessById" parameterType="Long" resultMap="BizBusinessResult">
+        <include refid="selectBizBusinessVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizBusiness" parameterType="BizBusiness" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="procDefId != null">proc_def_id,</if>
+            <if test="procDefKey != null">proc_def_key,</if>
+            <if test="procInstId != null">proc_inst_id,</if>
+            <if test="procName != null">proc_name,</if>
+            <if test="currentTask != null">current_task,</if>
+            <if test="result != null">result,</if>
+            <if test="status != null">status,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="title != null">title,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="applyer != null">applyer,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="restartTimes != null">restart_times,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="tableIndex != null">table_index,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="procDefId != null">#{procDefId},</if>
+            <if test="procDefKey != null">#{procDefKey},</if>
+            <if test="procInstId != null">#{procInstId},</if>
+            <if test="procName != null">#{procName},</if>
+            <if test="currentTask != null">#{currentTask},</if>
+            <if test="result != null">#{result},</if>
+            <if test="status != null">#{status},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="applyer != null">#{applyer},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="restartTimes != null">#{restartTimes},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="tableIndex != null">#{tableIndex}</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizBusiness" parameterType="BizBusiness">
+        update biz_business
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="procDefId != null">proc_def_id = #{procDefId},</if>
+            <if test="procDefKey != null">proc_def_key = #{procDefKey},</if>
+            <if test="procInstId != null">proc_inst_id = #{procInstId},</if>
+            <if test="procName != null">proc_name = #{procName},</if>
+            <if test="currentTask != null">current_task = #{currentTask},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="applyer != null">applyer = #{applyer},</if>
+            <if test="applyTime != null">apply_time = #{applyTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="restartTimes != null">restart_times = #{restartTimes},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="tableIndex != null">table_index = #{tableIndex}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizBusinessById" parameterType="Long">
+        delete from biz_business where id = #{id}
+    </delete>
+
+    <delete id="deleteBizBusinessByIds" parameterType="String">
+        delete from biz_business where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
