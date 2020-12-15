@@ -4,6 +4,24 @@
 2. 业务 -> 工作流： 业务调用 Mediator 设置工作流流程变量 (activiti.engine 包)
 3. 工作流 -> 业务： 工作流调用 Mediator 更新业务主表状态 (flow.engine 包)
 
+## 总流程
+1. 创建业务表对象
+2. 启动工作流
+3. 工作流推进遇到用户任务，创建任务
+  3.1. 监听创建任务
+    3.1.1. 监听器中调用业务，获得任务获选人
+    3.1.2. 设置工作流候选人
+      3.1.2.1. 通过节点ID 从提前缓存的 Map 中获得对应的处理类
+      3.1.2.2. 判断是否并行处理任务，如果是，不需要配置候选人，如果不是，调用处理 Bean 的 getAuditors 方法动态设置流程节点候选人
+    3.1.2. 任务创建成功
+4. 用户审批待办任务(audit)
+  4.1. 调用 activiti 包中封装好的 bizBusiness 执行审批
+    4.1.1. 调用 IFlowMediator 更新业务表
+      4.1.1.1. IFlowMediator 获得当前工作流任务节点ID
+      4.1.1.2. 通过节点ID 从提前缓存的 Map 中获得对应的处理类
+      4.1.1.3. 调用处理 Bean 中的 updateFlow 更新业务表
+      4.1.1.4. 调用处理 Bean 中的 updateVariable 更新工作流执行参数
+    4.1.2. 调用工作流推进流程
 
 ## 说明
 1. 基于 [ruoyi-cloud](https://gitee.com/zhangmrit/ruoyi-cloud) 改版而来，去掉 mybatis-plus 改为纯粹 mybatis, jpa 好像也顺手去掉了（需要手动添加 activiti 的表）
