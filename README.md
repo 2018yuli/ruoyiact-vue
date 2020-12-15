@@ -5,12 +5,14 @@
 3. 工作流 -> 业务： 工作流调用 Mediator 更新业务主表状态 (flow.engine 包)
 
 
-
-## 改动
+## 说明
 1. 基于 [ruoyi-cloud](https://gitee.com/zhangmrit/ruoyi-cloud) 改版而来，去掉 mybatis-plus 改为纯粹 mybatis, jpa 好像也顺手去掉了（需要手动添加 activiti 的表）
-2. 使用 IFlowMediator 中介解耦工作流与业务 (engine 包)
-3. 使用全局监听器，设置工作流候选人 （listener 包）
-4. 支持调用子任务，会签，或签等
+2. 原作者已经将工作流接口封装到了 bizBusiness 的中间结构，实现了业务和工作流的解耦，对于不是特别复杂的业务，直接使用原作者的封装就已经 ok 了
+3. 如果流程业务场景比较复杂，可以考虑使用本项目中的中介者模式进一步解耦
+## 改动
+1. 使用 IFlowMediator 中介解耦工作流与业务 (engine 包)
+2. 使用全局监听器，设置工作流候选人 （listener 包）
+3. 支持调用子任务，会签，或签等
 
 ## 详见 my blog [学习activiti 工作流](https://blog.csdn.net/u012296499/article/details/108602127)
 
